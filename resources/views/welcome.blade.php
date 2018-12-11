@@ -1,98 +1,117 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-2">
+                <div class="left-column">
+                    <div id="company-refinement"></div>
+                    <div id="category-refinement"></div>
                 </div>
             </div>
+            <div class="col-md-8">
+                <div>
+                    <input id="search-input" placeholder="Search for products">
+                    <!-- We use a specific placeholder in the input to guides users in their search. -->
+                </div>
+                <div id="hits"></div>
+                <div id="pagination"></div>
+            </div>
         </div>
-    </body>
-</html>
+    </div>
+@endsection
+
+@push('scripts')
+    <!-- Add this to your HTML document -->
+    <script type="text/html" id="hit-template">
+        <div class="hit">
+            <div class="hit-image">
+                <img src="@{{logo_url}}" alt="@{{name}}">
+            </div>
+            <div class="hit-content">
+                <h3 class="hit-price">$@{{id}}</h3>
+                <h2 class="hit-name">@{{{_highlightResult.name.value}}}</h2>
+                <p class="hit-description">@{{{_highlightResult.description.value}}}</p>
+            </div>
+        </div>
+    </script>
+    <script>
+        var search = instantsearch({
+            // Replace with your own values
+            appId: 'F3DTFBXAC7',
+            apiKey: 'd9da8aec0bcdf388217db0d46039ee0d', // search only API key, no ADMIN key
+            indexName: 'libraryappcenter',
+            urlSync: true,
+            searchParameters: {
+                hitsPerPage: 20
+            }
+        });
+
+        // Add this after the previous JavaScript code
+        search.addWidget(
+            instantsearch.widgets.searchBox({
+                container: '#search-input'
+            })
+        );
+
+        // Add this after the previous JavaScript code
+        search.addWidget(
+            instantsearch.widgets.hits({
+                container: '#hits',
+                templates: {
+                    item: document.getElementById('hit-template').innerHTML,
+                    empty: "We didn't find any results for the search <em>\"@{{query}}\"</em>"
+                }
+            })
+        );
+
+        search.addWidget(
+            instantsearch.widgets.refinementList({
+                container: '#company-refinement',
+                attributeName: 'company.name',
+                templates: {
+                    header: 'Company'
+                }
+            })
+        );
+
+        search.addWidget(
+            instantsearch.widgets.refinementList({
+                container: '#category-refinement',
+                attributeName: 'categories.name',
+                templates: {
+                    header: 'Category'
+                }
+            })
+        );
+
+        /*search.addWidget(
+            instantsearch.widgets.refinementList({
+                container: '#company-refinement',
+                attributeName: 'company.name',
+                templates: {
+                    header: 'Company'
+                },
+                searchForFacetValues: {
+                    placeholder: 'Search for Company',
+                    templates: {
+                        noResults: '<div class="sffv_no-results">No matching companies.</div>'
+                    }
+                }
+            })
+        );*/
+
+        // Add this after the other search.addWidget() calls
+        search.addWidget(
+            instantsearch.widgets.pagination({
+                container: '#pagination'
+            })
+        );
+
+        // Add this after all the search.addWidget() calls
+        search.start();
+
+    </script>
+
+
+@endpush
