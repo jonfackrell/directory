@@ -26,14 +26,5 @@ class CategoriesTableSeeder extends Seeder
         $linkResolver = \App\Category::create([
             'name' => 'Link Resolver',
         ]);
-
-        $horizon = \App\Product::where('name', 'Horizon')->first();
-        $horizon->categories()->attach($catalog);
-
-        $eds = \App\Product::where('name', 'EBSCO Discovery Service')->first();
-        $eds->categories()->attach($discovery);
-
-        $primo = \App\Product::where('name', 'Primo')->first();
-        $primo->categories()->attach($discovery);
     }
 }

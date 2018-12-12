@@ -44,5 +44,16 @@ class ProductsTableSeeder extends Seeder
         $ebsco->products()->save($eds);
         $proquest = \App\Company::where('name', 'ProQuest')->first();
         $proquest->products()->save($primo);
+
+
+        $catalog = \App\Category::where('name', 'Catalog')->first();
+        $horizon->categories()->attach($catalog);
+
+        $discovery = \App\Category::where('name', 'Discovery')->first();
+        $eds->categories()->attach($discovery);
+        $primo->categories()->attach($discovery);
+
+        $products = \App\Product::all();
+        $products->searchable();
     }
 }
