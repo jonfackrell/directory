@@ -15,18 +15,26 @@ class CreateAdsTable extends Migration
     {
         Schema::create('ads', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('category_id');
             $table->string('name');
             $table->longText('content');
-            $table->unsignedInteger('hits');
+            $table->unsignedInteger('hits')->default(0);
             $table->dateTime('starts_at');
             $table->dateTime('ends_at');
             $table->timestamps();
+        });
 
+        Schema::create('ad_category', function (Blueprint $table) {
+            $table->integer('ad_id')->unsigned();
+            $table->integer('category_id')->unsigned();
+            $table->foreign('ad_id')
+                ->references('id')
+                ->on('ads')
+                ->onDelete('cascade');
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories')
                 ->onDelete('cascade');
+            $table->primary(['ad_id', 'category_id']);
         });
     }
 
@@ -37,6 +45,7 @@ class CreateAdsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('ad_category');
         Schema::dropIfExists('ads');
     }
 }

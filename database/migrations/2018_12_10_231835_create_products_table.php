@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('company_id');
             $table->string('name');
+            $table->string('slug')->index();
             $table->longText('description');
             $table->string('logo_url');
             $table->string('url');

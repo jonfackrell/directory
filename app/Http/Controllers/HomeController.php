@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = Category::withCount('products')->get();
+        $categories = Category::withCount('products')->orderBy('name', 'ASC')->get();
         $ads = Ad::all();
         return view('home', compact('categories', 'ads'));
     }

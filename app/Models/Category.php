@@ -40,4 +40,12 @@ class Category extends Model
     {
         return $this->belongsToMany(Product::class);
     }
+
+    /**
+     * The ads that belong to the category.
+     */
+    public function ads()
+    {
+        return $this->belongsToMany(Ad::class);
+    }
 }

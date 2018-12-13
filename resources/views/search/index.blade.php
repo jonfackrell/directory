@@ -30,7 +30,11 @@
             </div>
             <div class="hit-content">
                 <h3 class="hit-price">$@{{id}}</h3>
-                <h2 class="hit-name">@{{{_highlightResult.name.value}}}</h2>
+                <h2 class="hit-name">
+                    <a href="/detail/@{{slug}}">
+                        @{{{_highlightResult.name.value}}}
+                    </a>
+                </h2>
                 <p class="hit-description">@{{{_highlightResult.description.value}}}</p>
             </div>
         </div>

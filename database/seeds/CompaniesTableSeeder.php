@@ -17,17 +17,26 @@ class CompaniesTableSeeder extends Seeder
             'logo_url' => '',
             'url' => 'http://www.sirsidynix.com/',
         ]);
+
         $ebsco = \App\Company::create([
             'name' => 'EBSCO',
             'description' => '',
             'logo_url' => '',
             'url' => 'https://www.ebsco.com/',
         ]);
+
         $proquest = \App\Company::create([
             'name' => 'ProQuest',
             'description' => '',
             'logo_url' => '',
             'url' => 'https://www.proquest.com/',
+        ]);
+
+        $nubGames = \App\Company::create([
+            'name' => 'Nub Games',
+            'description' => '',
+            'logo_url' => '',
+            'url' => 'https://libraryh3lp.com/',
         ]);
     }
 }

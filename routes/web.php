@@ -13,9 +13,11 @@
 
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [SearchController::class, 'index'])->name('search');
+Route::get('/detail/{product}', [ProductController::class, 'show'])->name('detail');
 
 Auth::routes(['verify' => true]);
 

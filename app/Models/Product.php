@@ -4,11 +4,12 @@ namespace App;
 
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Product extends Model
 {
 
-    use Searchable;
+    use Searchable, Sluggable;
 
     /**
      * The attributes that are mass assignable.
@@ -18,12 +19,27 @@ class Product extends Model
     protected $fillable = [
         'company_id',
         'name',
+        'slug',
         'description',
         'logo_url',
         'url',
         'library',
         'open_source',
     ];
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
 
     /**
      * Get the company that owns the product.

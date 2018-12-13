@@ -17,7 +17,7 @@ class ProductsTableSeeder extends Seeder
             'logo_url' => '',
             'url' => 'http://www.sirsidynix.com/products/horizon',
             'library' => 1,
-            'open_source' => 1,
+            'open_source' => 0,
         ]);
 
         $primo = new \App\Product([
@@ -26,7 +26,7 @@ class ProductsTableSeeder extends Seeder
             'logo_url' => '',
             'url' => 'https://www.proquest.com/libraries/academic/discovery-services/Ex-Libris-Primo.html',
             'library' => 1,
-            'open_source' => 1,
+            'open_source' => 0,
         ]);
 
         $eds = new \App\Product([
@@ -35,7 +35,16 @@ class ProductsTableSeeder extends Seeder
             'logo_url' => '',
             'url' => 'https://www.ebscohost.com/discovery',
             'library' => 1,
-            'open_source' => 1,
+            'open_source' => 0,
+        ]);
+
+        $libraryh3lp = new \App\Product([
+            'name' => 'LibraryH3lp',
+            'description' => 'The premier software platform used by libraries, educators & non-profits for excellent customer service.',
+            'logo_url' => '',
+            'url' => 'https://libraryh3lp.com/features',
+            'library' => 1,
+            'open_source' => 0,
         ]);
 
         $sirsidynix = \App\Company::where('name', 'SirsiDynix')->first();
@@ -44,6 +53,8 @@ class ProductsTableSeeder extends Seeder
         $ebsco->products()->save($eds);
         $proquest = \App\Company::where('name', 'ProQuest')->first();
         $proquest->products()->save($primo);
+        $nubGames = \App\Company::where('name', 'Nub Games')->first();
+        $nubGames->products()->save($libraryh3lp);
 
 
         $catalog = \App\Category::where('name', 'Catalog')->first();
@@ -52,6 +63,9 @@ class ProductsTableSeeder extends Seeder
         $discovery = \App\Category::where('name', 'Discovery')->first();
         $eds->categories()->attach($discovery);
         $primo->categories()->attach($discovery);
+
+        $vr = \App\Category::where('name', 'Virtual Reference')->first();
+        $libraryh3lp->categories()->attach($vr);
 
         $products = \App\Product::all();
         $products->searchable();
