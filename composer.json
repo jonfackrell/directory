@@ -24,6 +24,7 @@
         "laravel/telescope": "^1.0",
         "laravel/tinker": "^1.0",
         "league/flysystem-aws-s3-v3": "~1.0",
+        "netojose/laravel-bootstrap-4-forms": "^2.0",
         "predis/predis": "~1.0",
         "pusher/pusher-php-server": "~3.0",
         "rennokki/befriended": "^1.2",

@@ -23,6 +23,11 @@ class CreateProductsTable extends Migration
             $table->boolean('library');
             $table->boolean('open_source');
             $table->timestamps();
+
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies')
+                ->onDelete('cascade');
         });
     }
 

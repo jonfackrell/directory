@@ -15,7 +15,18 @@ class CreateAdsTable extends Migration
     {
         Schema::create('ads', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('category_id');
+            $table->string('name');
+            $table->longText('content');
+            $table->unsignedInteger('hits');
+            $table->dateTime('starts_at');
+            $table->dateTime('ends_at');
             $table->timestamps();
+
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories')
+                ->onDelete('cascade');
         });
     }
 

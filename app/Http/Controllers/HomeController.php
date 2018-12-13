@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Ad;
+use App\Category;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,16 +15,18 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+
     }
 
     /**
-     * Show the application dashboard.
+     * Show the application homepage.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('home');
+        $categories = Category::withCount('products')->get();
+        $ads = Ad::all();
+        return view('home', compact('categories', 'ads'));
     }
 }
