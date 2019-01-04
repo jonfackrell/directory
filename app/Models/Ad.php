@@ -21,6 +21,16 @@ class Ad extends Model
     ];
 
     /**
+     * The attributes that are converted to Carbon dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'starts_at',
+        'ends_at',
+    ];
+
+    /**
      * The categories that belong to the ad.
      */
     public function categories()

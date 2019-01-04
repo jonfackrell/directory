@@ -3,15 +3,19 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="left-column">
-                    <div id="company-refinement"></div>
                     <div id="category-refinement"></div>
+                    <div id="company-refinement"></div>
                 </div>
             </div>
-            <div class="col-md-8">
-                <div>
-                    <input id="search-input" placeholder="Search for products">
+            <div class="col-md-9">
+                <div class="input-group" style="margin-bottom: 10px;">
+                    <input id="search-input"
+                           placeholder="Search for products"
+                           class="form-control"
+                           style="padding-left: 24px;"
+                    >
                     <!-- We use a specific placeholder in the input to guides users in their search. -->
                 </div>
                 <div id="hits"></div>
@@ -24,18 +28,33 @@
 @push('scripts')
     <!-- Add this to your HTML document -->
     <script type="text/html" id="hit-template">
-        <div class="hit">
-            <div class="hit-image">
-                <img src="@{{logo_url}}" alt="@{{name}}">
-            </div>
-            <div class="hit-content">
-                <h3 class="hit-price">$@{{id}}</h3>
-                <h2 class="hit-name">
-                    <a href="/detail/@{{slug}}">
-                        @{{{_highlightResult.name.value}}}
-                    </a>
-                </h2>
-                <p class="hit-description">@{{{_highlightResult.description.value}}}</p>
+        <div class="hit card">
+            <div class="card-body">
+                <div class="media">
+                    @{{#logo_url}}
+                        <img src="@{{logo_url}}" class="hit-image align-self-start mr-3" alt="@{{name}}">
+                    @{{/logo_url}}
+                    @{{^logo_url}}
+                        <img src="https://placeimg.com/160/120/tech/sepia?@{{name}}" class="hit-image align-self-start mr-3" alt="@{{name}}">
+                    @{{/logo_url}}
+                    <div class="media-body hit-content">
+                        <a href="/detail/@{{slug}}">
+                            <h5 class="mt-0">@{{{_highlightResult.name.value}}}</h5>
+                        </a>
+                        <h6 class="mt-0 mb-0">by @{{{_highlightResult.company.name.value}}}</h6>
+                        <div class="row">
+                            <div class="col">
+                                <div class="star-ratings-sprite">
+                                    <span style="width:@{{average_rating}}%" class="star-ratings-sprite-rating"></span>
+                                </div>
+                                <span class="total-comment-count">(@{{total_comment_count}})</span>
+                            </div>
+                        </div>
+
+                        <p class="hit-description ">@{{{_highlightResult.description.value}}}</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </script>
@@ -75,6 +94,11 @@
                 attributeName: 'company.name',
                 templates: {
                     header: 'Company'
+                },
+                cssClasses:{
+                    root: 'card',
+                    header: 'card-body',
+                    body: 'card-body'
                 }
             })
         );
@@ -85,6 +109,11 @@
                 attributeName: 'categories.name',
                 templates: {
                     header: 'Category'
+                },
+                cssClasses:{
+                    root: 'card',
+                    header: 'card-body',
+                    body: 'card-body'
                 }
             })
         );
@@ -108,7 +137,19 @@
         // Add this after the other search.addWidget() calls
         search.addWidget(
             instantsearch.widgets.pagination({
-                container: '#pagination'
+                container: '#pagination',
+                cssClasses:{
+                    root: 'pagination',
+                    item: 'page-item',
+                    link: 'page-link',
+                    page: '',
+                    previous: 'page-item',
+                    next: 'page-item',
+                    first: 'page-item',
+                    last: 'page-item',
+                    active: 'active',
+                    disabled: 'disabled'
+                }
             })
         );
 

@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Ad;
-use App\Category;
-use App\Product;
+use App\User;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -46,14 +44,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($id)
     {
-        $product = Product::with('categories')->where('slug', $slug)->first();
-        $ads = Ad::whereHas('categories', function ($query) use ($product) {
-            $query->whereIn('id', $product->categories()->pluck('id'));
-        })->get();
-
-        return view('products.show', compact('product', 'ads'));
+        //
     }
 
     /**
@@ -62,10 +55,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(User $user)
     {
-        $categories = Category::pluck('name', 'id');
-        return view('products.edit', compact('product', 'categories'));
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -75,10 +67,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        $product->fill($request->only(['name', 'description']));
-        $product->save();
+        //
     }
 
     /**

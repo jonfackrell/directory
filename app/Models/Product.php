@@ -5,11 +5,13 @@ namespace App;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Actuallymab\LaravelComment\Contracts\Commentable;
+use Actuallymab\LaravelComment\HasComments;
 
-class Product extends Model
+class Product extends Model implements Commentable
 {
 
-    use Searchable, Sluggable;
+    use Searchable, Sluggable, HasComments;
 
     /**
      * The attributes that are mass assignable.
@@ -67,6 +69,8 @@ class Product extends Model
         $array = $this->loadMissing('company', 'categories')->toArray();
 
         // Customize array...
+        $array['average_rating'] = $this->averageRate();
+        $array['total_comment_count'] = $this->totalCommentsCount();
 
         return $array;
     }
@@ -79,6 +83,11 @@ class Product extends Model
     public function searchableAs()
     {
         return 'libraryappcenter';
+    }
+
+    public function canBeRated(): bool
+    {
+        return true; // default false
     }
 
 }
